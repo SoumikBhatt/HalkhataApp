@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ public class UpdateDialog extends AppCompatDialogFragment {
         View view = layoutInflater.inflate(R.layout.dialog_update, null);
         builder.setView(view).setTitle("");
 
-        upID = view.findViewById(R.id.et_up_ID);
+//        upID = view.findViewById(R.id.et_up_ID);
         upDue = view.findViewById(R.id.et_up_due_amount);
         upDate = view.findViewById(R.id.et_up_date);
         upButton = view.findViewById(R.id.btn_up_add_customer);
@@ -47,34 +48,44 @@ public class UpdateDialog extends AppCompatDialogFragment {
         upButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int id = Integer.parseInt(upID.getText().toString());
-                int due = Integer.parseInt(upDue.getText().toString());
-                String date = upDate.getText().toString();
+//                int id = Integer.parseInt(upID.getText().toString());
 
-                int cid = objCustomer.getId();
+//                final int a = !height.equals("")?Integer.parseInt(height) : 0;
 
-                Transaction transaction = new Transaction();
-                transaction.setTransactionID(id);
-                transaction.setDue(due);
-                transaction.setDate(date);
+                if (TextUtils.isEmpty(upDue.getText())|| TextUtils.isEmpty(upDate.getText())){
+                    Toast.makeText(getContext(),"Please Fill up all Field",Toast.LENGTH_SHORT).show();
+                } else {
 
-                transaction.setCustomerID(cid);
 
-                Log.i("objid", "" + objCustomer.getId());
-                Log.i("objid", "" + cid);
-                Log.i("tid", "" + transaction.getCustomerID());
-                Log.i("due", "" + transaction.getDue());
-                Log.i("DateDue", "" + transaction.getDate());
+                    int due =  Integer.parseInt(upDue.getText().toString()) ;
+                    String date = upDate.getText().toString();
 
-                MainActivity.customerDatabase.customerDAO().addCustomerTransaction(transaction);
 
-                Toast.makeText(getActivity(), "Customer Transaction Added", Toast.LENGTH_SHORT).show();
+                    int cid = objCustomer.getId();
 
-                upID.setText("");
-                upDue.setText("");
-                upDate.setText("");
+                    Transaction transaction = new Transaction();
+//                transaction.setTransactionID(id);
+                    transaction.setDue(due);
+                    transaction.setDate(date);
 
-                dismiss();
+                    transaction.setCustomerID(cid);
+
+                    Log.i("objid", "" + objCustomer.getId());
+                    Log.i("objid", "" + cid);
+                    Log.i("tid", "" + transaction.getCustomerID());
+                    Log.i("due", "" + transaction.getDue());
+                    Log.i("DateDue", "" + transaction.getDate());
+
+                    MainActivity.customerDatabase.customerDAO().addCustomerTransaction(transaction);
+
+                    Toast.makeText(getActivity(), "Customer Transaction Added", Toast.LENGTH_SHORT).show();
+
+//                upID.setText("");
+                    upDue.setText("");
+                    upDate.setText("");
+
+                    dismiss();
+                }
             }
         });
 

@@ -54,23 +54,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        customerList = customerDatabase.customerDAO().viewCustomer();
-
-        customerAdapter = new CustomerAdapter(MainActivity.this, customerList);
-        customerAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(customerAdapter);
+        toAdapter();
 
         showIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                customerList = customerDatabase.customerDAO().viewCustomer();
-                customerAdapter = new CustomerAdapter(MainActivity.this, customerList);
-                customerAdapter.notifyDataSetChanged();
-                recyclerView.setAdapter(customerAdapter);
+                toAdapter();
             }
         });
 
 
+    }
+
+    public void toAdapter() {
+        customerList = customerDatabase.customerDAO().viewCustomer();
+        customerAdapter = new CustomerAdapter(MainActivity.this, customerList);
+        customerAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(customerAdapter);
     }
 
     public void openAddDialog() {

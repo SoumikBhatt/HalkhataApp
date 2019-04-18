@@ -6,8 +6,8 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Transaction {
 
-    @PrimaryKey
-    private int transactionID;
+    @PrimaryKey(autoGenerate = true)
+    private int transactionID=0;
     private int customerID;
     private int due;
     private int deposit;

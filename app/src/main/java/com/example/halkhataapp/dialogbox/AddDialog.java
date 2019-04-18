@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,7 @@ public class AddDialog extends AppCompatDialogFragment {
         View view = layoutInflater.inflate(R.layout.dialog_add, null);
         builder.setView(view).setTitle("");
 
-        idET = view.findViewById(R.id.et_ID);
+//        idET = view.findViewById(R.id.et_ID);
         nameET = view.findViewById(R.id.et_name);
         addressET = view.findViewById(R.id.et_address);
         numberET = view.findViewById(R.id.et_number);
@@ -41,36 +42,57 @@ public class AddDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View v) {
 
-                int id = Integer.parseInt(idET.getText().toString());
-                String name = nameET.getText().toString();
-                String address = addressET.getText().toString();
-                long number = Long.parseLong(numberET.getText().toString());
+                validateAddField();
+            }
+        });
 
-                Customer customer = new Customer();
-                customer.setId(id);
-                customer.setName(name);
-                customer.setAddress(address);
-                customer.setNumber(number);
+
+        return builder.create();
+    }
+
+    public void validateAddField() {
+        if (TextUtils.isEmpty(nameET.getText()) && TextUtils.isEmpty(addressET.getText()) && TextUtils.isEmpty(numberET.getText())) {
+            nameET.setError("Name Field can't be blank");
+//                    Toast.makeText(getContext(), "Please Fill up all Field", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(addressET.getText()) && TextUtils.isEmpty(numberET.getText())){
+            addressET.setError("Address field can't be blank");
+        } else if (TextUtils.isEmpty(nameET.getText())){
+            nameET.setError("Name Field can't be blank");
+        } else if (TextUtils.isEmpty(addressET.getText())){
+            addressET.setError("Address field can't be blank");
+        } else if (TextUtils.isEmpty(numberET.getText())){
+            numberET.setError("Number Field can't be blank");
+        } else {
+//                int id = Integer.parseInt(idET.getText().toString());
+            addTransaction();
+        }
+    }
+
+    public void addTransaction() {
+        String name = nameET.getText().toString();
+        String address = addressET.getText().toString();
+        long number = Long.parseLong(numberET.getText().toString());
+
+        Customer customer = new Customer();
+//                customer.setId(id);
+        customer.setName(name);
+        customer.setAddress(address);
+        customer.setNumber(number);
 
 //                Transaction transaction = new Transaction();
 //                transaction.setTransactionID(id);
 //                transaction.setDue(due);
 //                transaction.setDeposit(deposit);
 
-                MainActivity.customerDatabase.customerDAO().addCustomer(customer);
+        MainActivity.customerDatabase.customerDAO().addCustomer(customer);
 
-                Toast.makeText(getActivity(), "Customer Added Successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Customer Added Successfully", Toast.LENGTH_SHORT).show();
 
-                idET.setText("");
-                nameET.setText("");
-                addressET.setText("");
-                numberET.setText("");
+//                idET.setText("");
+        nameET.setText("");
+        addressET.setText("");
+        numberET.setText("");
 
-                dismiss();
-            }
-        });
-
-
-        return builder.create();
+        dismiss();
     }
 }

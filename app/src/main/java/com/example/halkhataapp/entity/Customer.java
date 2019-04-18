@@ -8,8 +8,8 @@ import java.io.Serializable;
 @Entity
 public class Customer implements Serializable {
 
-    @PrimaryKey
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    private int id=0;
 
     private String name;
     private String address;

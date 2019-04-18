@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ public class DepositDialog extends AppCompatDialogFragment {
         View view = layoutInflater.inflate(R.layout.dialog_deposit, null);
         builder.setView(view).setTitle("");
 
-        idET = view.findViewById(R.id.et_up_depoID);
+//        idET = view.findViewById(R.id.et_up_depoID);
         depoET = view.findViewById(R.id.et_up_deposit_amount);
         dateET = view.findViewById(R.id.et_deposit_date);
         addBTN = view.findViewById(R.id.btn_up_depo_add_customer);
@@ -48,35 +49,40 @@ public class DepositDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View v) {
 
-                int id = Integer.parseInt(idET.getText().toString());
-                int deposit = Integer.parseInt(depoET.getText().toString());
-                String date = dateET.getText().toString();
+                if (TextUtils.isEmpty(depoET.getText()) || TextUtils.isEmpty(dateET.getText())) {
+                    Toast.makeText(getContext(), "Please Fill up all Field", Toast.LENGTH_SHORT).show();
+                } else {
 
-                int cid = objCustomer.getId();
+//                int id = Integer.parseInt(idET.getText().toString());
+                    int deposit = Integer.parseInt(depoET.getText().toString());
+                    String date = dateET.getText().toString();
 
-                Transaction transaction = new Transaction();
-                transaction.setTransactionID(id);
-                transaction.setDeposit(deposit);
-                transaction.setDate(date);
+                    int cid = objCustomer.getId();
 
-                transaction.setCustomerID(cid);
+                    Transaction transaction = new Transaction();
+//                transaction.setTransactionID(id);
+                    transaction.setDeposit(deposit);
+                    transaction.setDate(date);
 
-                Log.i("objid", "" + objCustomer.getId());
-                Log.i("objid", "" + cid);
-                Log.i("tid", "" + transaction.getCustomerID());
-                Log.i("depo", "" + transaction.getDeposit());
-                Log.i("date", "" + transaction.getDate());
+                    transaction.setCustomerID(cid);
 
-                MainActivity.customerDatabase.customerDAO().addCustomerTransaction(transaction);
+                    Log.i("objid", "" + objCustomer.getId());
+                    Log.i("objid", "" + cid);
+                    Log.i("tid", "" + transaction.getCustomerID());
+                    Log.i("depo", "" + transaction.getDeposit());
+                    Log.i("date", "" + transaction.getDate());
 
-                Toast.makeText(getActivity(), "Customer Transaction Added", Toast.LENGTH_SHORT).show();
+                    MainActivity.customerDatabase.customerDAO().addCustomerTransaction(transaction);
 
-                idET.setText("");
-                depoET.setText("");
-                dateET.setText("");
+                    Toast.makeText(getActivity(), "Customer Transaction Added", Toast.LENGTH_SHORT).show();
+
+//                idET.setText("");
+                    depoET.setText("");
+                    dateET.setText("");
 
 
-                dismiss();
+                    dismiss();
+                }
             }
         });
 

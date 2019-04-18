@@ -5,15 +5,15 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/et_up_ID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:ems="10"
-        android:hint="Transaction ID"
-        android:textColorHint="#CCC"
-        android:inputType="number" />
+    <!--<EditText-->
+        <!--android:id="@+id/et_up_ID"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="20dp"-->
+        <!--android:ems="10"-->
+        <!--android:hint="Transaction ID"-->
+        <!--android:textColorHint="#CCC"-->
+        <!--android:inputType="number" />-->
 
     <EditText
         android:id="@+id/et_up_date"
