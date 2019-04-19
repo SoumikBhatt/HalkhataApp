@@ -20,6 +20,11 @@ import com.example.halkhataapp.entity.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.halkhataapp.activity.MainActivity.customerAdapter;
+import static com.example.halkhataapp.activity.MainActivity.customerDatabase;
+import static com.example.halkhataapp.activity.MainActivity.customerList;
+import static com.example.halkhataapp.activity.MainActivity.recyclerView;
+
 public class AddDialog extends AppCompatDialogFragment {
 
     private EditText idET, nameET, addressET, numberET;
@@ -32,7 +37,6 @@ public class AddDialog extends AppCompatDialogFragment {
         View view = layoutInflater.inflate(R.layout.dialog_add, null);
         builder.setView(view).setTitle("");
 
-//        idET = view.findViewById(R.id.et_ID);
         nameET = view.findViewById(R.id.et_name);
         addressET = view.findViewById(R.id.et_address);
         numberET = view.findViewById(R.id.et_number);
@@ -43,6 +47,10 @@ public class AddDialog extends AppCompatDialogFragment {
             public void onClick(View v) {
 
                 validateAddField();
+                customerList = customerDatabase.customerDAO().viewCustomer();
+                customerAdapter = new CustomerAdapter(getActivity(), customerList);
+                customerAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(customerAdapter);
             }
         });
 
@@ -53,7 +61,6 @@ public class AddDialog extends AppCompatDialogFragment {
     public void validateAddField() {
         if (TextUtils.isEmpty(nameET.getText()) && TextUtils.isEmpty(addressET.getText()) && TextUtils.isEmpty(numberET.getText())) {
             nameET.setError("Name Field can't be blank");
-//                    Toast.makeText(getContext(), "Please Fill up all Field", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(addressET.getText()) && TextUtils.isEmpty(numberET.getText())){
             addressET.setError("Address field can't be blank");
         } else if (TextUtils.isEmpty(nameET.getText())){
@@ -63,7 +70,6 @@ public class AddDialog extends AppCompatDialogFragment {
         } else if (TextUtils.isEmpty(numberET.getText())){
             numberET.setError("Number Field can't be blank");
         } else {
-//                int id = Integer.parseInt(idET.getText().toString());
             addTransaction();
         }
     }
@@ -74,21 +80,15 @@ public class AddDialog extends AppCompatDialogFragment {
         long number = Long.parseLong(numberET.getText().toString());
 
         Customer customer = new Customer();
-//                customer.setId(id);
         customer.setName(name);
         customer.setAddress(address);
         customer.setNumber(number);
 
-//                Transaction transaction = new Transaction();
-//                transaction.setTransactionID(id);
-//                transaction.setDue(due);
-//                transaction.setDeposit(deposit);
 
-        MainActivity.customerDatabase.customerDAO().addCustomer(customer);
+        customerDatabase.customerDAO().addCustomer(customer);
 
         Toast.makeText(getActivity(), "Customer Added Successfully", Toast.LENGTH_SHORT).show();
 
-//                idET.setText("");
         nameET.setText("");
         addressET.setText("");
         numberET.setText("");

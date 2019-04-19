@@ -1,6 +1,7 @@
 package com.example.halkhataapp.activity;
 
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -24,10 +25,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView addIcon, showIcon;
-    private RecyclerView recyclerView;
+    public static RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private CustomerAdapter customerAdapter;
-    private List<Customer> customerList;
+    public static CustomerAdapter customerAdapter;
+    public static List<Customer> customerList;
     public static CustomerDatabase customerDatabase;
 
     @Override
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void toAdapter() {
+    public  void toAdapter() {
         customerList = customerDatabase.customerDAO().viewCustomer();
         customerAdapter = new CustomerAdapter(MainActivity.this, customerList);
         customerAdapter.notifyDataSetChanged();

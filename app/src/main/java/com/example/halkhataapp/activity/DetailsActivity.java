@@ -28,10 +28,11 @@ public class DetailsActivity extends AppCompatActivity {
 
     public static RecyclerView customerHistoryRecycler;
     private RecyclerView.LayoutManager layoutManager;
-    private HistoryAdapter historyAdapter;
-    private List<Transaction> transactions = new ArrayList<>();
+    public static HistoryAdapter historyAdapter;
+    public static List<Transaction> transactions = new ArrayList<>();
     public static Customer objCustomer;
 
+    public static int totalDeposit;
     public static int balance;
 
 
@@ -105,8 +106,8 @@ public class DetailsActivity extends AppCompatActivity {
         getBalance();
     }
 
-    public void getBalance() {
-        int totalDeposit = 0;
+    public static void getBalance() {
+         totalDeposit = 0;
 
         for (int i=0;i<transactions.size();i++){
 
