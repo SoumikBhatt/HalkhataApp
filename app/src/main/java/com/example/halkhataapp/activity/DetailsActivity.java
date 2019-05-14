@@ -1,9 +1,11 @@
 package com.example.halkhataapp.activity;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -104,6 +106,8 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         getBalance();
+//        swipeDelete();
+
     }
 
     public static void getBalance() {
@@ -139,5 +143,34 @@ public class DetailsActivity extends AppCompatActivity {
 
         DepositDialog depositDialog = new DepositDialog();
         depositDialog.show(getSupportFragmentManager(),"deposit dialog");
+    }
+
+    public void swipeDelete() {
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder target, int i) {
+
+                Log.i("1111",""+target.getItemId());
+                deleteCustomer();
+            }
+        });
+
+        helper.attachToRecyclerView(customerHistoryRecycler);
+    }
+
+    public void deleteCustomer(){
+        Transaction transaction = new Transaction();
+        int id = objCustomer.getId();
+        transaction.setTransactionID(id);
+
+        Log.i("1222",""+id);
+        Log.i("1222",""+transaction.getTransactionID());
+        Log.i("1222",""+transaction.getCustomerID());
+        MainActivity.customerDatabase.customerDAO().deleteCustomerTransaction(transaction);
     }
 }

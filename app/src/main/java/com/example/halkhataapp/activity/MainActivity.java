@@ -2,15 +2,19 @@ package com.example.halkhataapp.activity;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.halkhataapp.R;
 import com.example.halkhataapp.adapter.CustomerAdapter;
@@ -64,7 +68,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        swipeDelete();
 
+    }
+
+    private void swipeDelete() {
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder target, int i) {
+
+                customerDatabase.customerDAO().deleteCustomer(customerAdapter.getCustomer(target.getAdapterPosition()));
+                Toast.makeText(MainActivity.this,"Deleted!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        helper.attachToRecyclerView(recyclerView);
+        toAdapter();
     }
 
     public  void toAdapter() {

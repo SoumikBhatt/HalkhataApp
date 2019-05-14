@@ -63,6 +63,10 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
         return customerList.size();
     }
 
+    public Customer getCustomer(int position){
+        return customerList.get(position);
+    }
+
     public class CustomerHolder extends RecyclerView.ViewHolder {
 
         private TextView customerNameTV;
